@@ -81,6 +81,10 @@ button {
   transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.slide img:not([src]) {
+  opacity: 0;
+}
+
 .slide.is-active img {
   transform: scale(1);
 }
@@ -112,39 +116,35 @@ button {
   backdrop-filter: blur(10px);
 }
 
-.music-btn::before,
-.music-btn::after,
-.music-icon {
-  display: block;
-  content: "";
-}
-
 .music-icon {
   position: relative;
-  width: 13px;
-  height: 18px;
-  border-radius: 3px 3px 0 0;
-  background: currentColor;
+  display: block;
+  width: 17px;
+  height: 20px;
+  border-left: 3px solid currentColor;
+  border-top: 3px solid currentColor;
+  border-radius: 5px 0 0 0;
+  transform: translate(2px, -1px);
 }
 
 .music-icon::before {
   position: absolute;
-  right: -10px;
-  bottom: 9px;
-  width: 10px;
-  height: 8px;
+  top: -4px;
+  right: -8px;
+  width: 8px;
+  height: 9px;
   border-top: 3px solid currentColor;
   border-right: 3px solid currentColor;
-  border-radius: 0 10px 0 0;
+  border-radius: 0 9px 0 0;
   content: "";
 }
 
 .music-icon::after {
   position: absolute;
-  left: -3px;
-  bottom: -4px;
-  width: 11px;
-  height: 8px;
+  left: -8px;
+  bottom: -2px;
+  width: 12px;
+  height: 9px;
   border-radius: 50%;
   background: currentColor;
   content: "";
