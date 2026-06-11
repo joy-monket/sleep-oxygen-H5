@@ -50,8 +50,6 @@ function preloadImage(src) {
 async function preparePage() {
   const sources = collectImageSources();
   let finished = 0;
-  const startedAt = Date.now();
-  const minimumVisibleTime = 1200;
 
   setLoadingProgress(6);
   await Promise.all(
@@ -65,10 +63,6 @@ async function preparePage() {
 
   sources.forEach((_, index) => loadSlide(index));
   setLoadingProgress(100);
-  const elapsed = Date.now() - startedAt;
-  if (elapsed < minimumVisibleTime) {
-    await new Promise((resolve) => window.setTimeout(resolve, minimumVisibleTime - elapsed));
-  }
   window.setTimeout(() => {
     loader.classList.add("is-hidden");
   }, 260);
