@@ -28,7 +28,18 @@ function loadSlide(index) {
 }
 
 function preloadAround(index) {
-  [index, index + 1, index + 2].forEach(loadSlide);
+  if (index === 0) {
+    loadSlide(0);
+    return;
+  }
+
+  if (index === 1) {
+    loadSlide(1);
+    loadSlide(2);
+    return;
+  }
+
+  loadSlide(index);
 }
 
 function update() {
@@ -38,6 +49,9 @@ function update() {
   dots.forEach((dot, index) => dot.classList.toggle("is-active", index === current));
   if (current > 0) {
     swipeHint.classList.add("is-hidden");
+  }
+  if (current > 1) {
+    scheduleNextPreload(current + 1);
   }
 }
 
@@ -59,6 +73,16 @@ function nextPage() {
 
 function prevPage() {
   goTo(current - 1);
+}
+
+function scheduleNextPreload(index) {
+  if (index >= slides.length) return;
+  const run = () => loadSlide(index);
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(run, { timeout: 1600 });
+    return;
+  }
+  window.setTimeout(run, 900);
 }
 
 async function startMusic() {
