@@ -1,0 +1,263 @@
+:root {
+  color-scheme: dark;
+  --stage-max: 520px;
+  --blue: #1765df;
+  --ice: #c8f3ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(88, 203, 255, 0.34), transparent 26%),
+    radial-gradient(circle at 84% 88%, rgba(22, 94, 210, 0.38), transparent 28%),
+    linear-gradient(145deg, #06102d 0%, #061b4f 52%, #020711 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  touch-action: none;
+}
+
+button {
+  border: 0;
+  font: inherit;
+}
+
+.app {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+
+.stage {
+  position: relative;
+  width: min(100vw, var(--stage-max));
+  height: 100dvh;
+  max-height: calc(var(--stage-max) * 16 / 9);
+  overflow: hidden;
+  background: #07153d;
+  box-shadow: 0 22px 80px rgba(0, 12, 45, 0.52);
+}
+
+.slides {
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+  transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.slide {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  place-items: center;
+  background: #eef8ff;
+}
+
+.slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform: scale(1.018);
+  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide.is-active img {
+  transform: scale(1);
+}
+
+.slide::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(180deg, rgba(0, 22, 69, 0.1), transparent 18%, transparent 82%, rgba(1, 12, 39, 0.22));
+  opacity: 0.45;
+}
+
+.music-btn {
+  position: absolute;
+  z-index: 5;
+  top: calc(14px + env(safe-area-inset-top));
+  right: 14px;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(218, 248, 255, 0.78);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(6, 34, 91, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 41, 120, 0.28), inset 0 0 16px rgba(129, 224, 255, 0.28);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.music-btn::before,
+.music-btn::after,
+.music-icon {
+  display: block;
+  content: "";
+}
+
+.music-icon {
+  position: relative;
+  width: 13px;
+  height: 18px;
+  border-radius: 3px 3px 0 0;
+  background: currentColor;
+}
+
+.music-icon::before {
+  position: absolute;
+  right: -10px;
+  bottom: 9px;
+  width: 10px;
+  height: 8px;
+  border-top: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+  border-radius: 0 10px 0 0;
+  content: "";
+}
+
+.music-icon::after {
+  position: absolute;
+  left: -3px;
+  bottom: -4px;
+  width: 11px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.music-btn.is-playing {
+  animation: musicSpin 5s linear infinite;
+}
+
+.music-btn:not(.is-playing)::after {
+  position: absolute;
+  width: 26px;
+  height: 2px;
+  border-radius: 999px;
+  background: #fff;
+  transform: rotate(-45deg);
+}
+
+.pager {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  right: 10px;
+  display: grid;
+  gap: 8px;
+  transform: translateY(-50%);
+}
+
+.pager button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.52);
+  box-shadow: 0 0 10px rgba(126, 221, 255, 0.28);
+  cursor: pointer;
+  transition: height 260ms ease, background 260ms ease;
+}
+
+.pager button.is-active {
+  height: 22px;
+  background: #fff;
+}
+
+.swipe-hint {
+  position: absolute;
+  z-index: 5;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-shadow: 0 2px 10px rgba(0, 23, 70, 0.58);
+  transform: translateX(-50%);
+  transition: opacity 300ms ease;
+}
+
+.swipe-hint span {
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(45deg);
+  animation: hintMove 1.35s ease-in-out infinite;
+}
+
+.swipe-hint.is-hidden {
+  opacity: 0;
+}
+
+@keyframes hintMove {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(0) rotate(45deg);
+  }
+}
+
+@keyframes musicSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 760px) {
+  .app {
+    padding: 24px;
+  }
+
+  .stage {
+    height: min(100dvh - 48px, 900px);
+    border-radius: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slides,
+  .slide img,
+  .pager button,
+  .swipe-hint {
+    transition: none;
+  }
+
+  .music-btn.is-playing,
+  .swipe-hint span {
+    animation: none;
+  }
+}
