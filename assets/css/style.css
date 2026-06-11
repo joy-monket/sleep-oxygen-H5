@@ -75,13 +75,19 @@ button {
   display: grid;
   width: min(72vw, 300px);
   justify-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .loader-title {
   font-size: 22px;
   font-weight: 700;
   letter-spacing: 0;
+}
+
+.loader-subtitle {
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .loader-track {
@@ -96,7 +102,7 @@ button {
 
 .loader-track span {
   display: block;
-  width: 0%;
+  width: 8%;
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, #63e8ff 0%, #ffffff 48%, #4da1ff 100%);
