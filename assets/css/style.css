@@ -118,8 +118,8 @@ button {
 
 .music-icon {
   display: block;
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   pointer-events: none;
 }
