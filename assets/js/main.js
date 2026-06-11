@@ -4,6 +4,9 @@ const pager = document.getElementById("pager");
 const musicBtn = document.getElementById("musicBtn");
 const swipeHint = document.getElementById("swipeHint");
 const bgm = document.getElementById("bgm");
+const loader = document.getElementById("loader");
+const loaderBar = document.getElementById("loaderBar");
+const loaderPercent = document.getElementById("loaderPercent");
 
 let current = 0;
 let locked = false;
@@ -19,6 +22,51 @@ slides.forEach((_, index) => {
 });
 
 const dots = Array.from(pager.children);
+
+function setLoadingProgress(value) {
+  const percent = Math.max(0, Math.min(100, Math.round(value)));
+  loaderBar.style.width = `${percent}%`;
+  loaderPercent.textContent = `${percent}%`;
+}
+
+function collectImageSources() {
+  return slides
+    .map((slide) => {
+      const img = slide.querySelector("img");
+      return img?.dataset.src || img?.getAttribute("src");
+    })
+    .filter(Boolean);
+}
+
+function preloadImage(src) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = resolve;
+    image.onerror = resolve;
+    image.src = src;
+  });
+}
+
+async function preparePage() {
+  const sources = collectImageSources();
+  let finished = 0;
+
+  setLoadingProgress(6);
+  await Promise.all(
+    sources.map((src) =>
+      preloadImage(src).then(() => {
+        finished += 1;
+        setLoadingProgress(6 + (finished / sources.length) * 94);
+      })
+    )
+  );
+
+  sources.forEach((_, index) => loadSlide(index));
+  setLoadingProgress(100);
+  window.setTimeout(() => {
+    loader.classList.add("is-hidden");
+  }, 260);
+}
 
 function loadSlide(index) {
   const img = slides[index]?.querySelector("img");
@@ -122,3 +170,4 @@ document.addEventListener("keydown", (event) => {
 });
 
 update();
+preparePage();

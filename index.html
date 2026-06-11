@@ -11,6 +11,16 @@
   <body>
     <main class="app" aria-label="睡眠氧舱 H5">
       <section class="stage" id="stage" aria-live="polite">
+        <div class="loader" id="loader" role="status" aria-live="polite">
+          <div class="loader-inner">
+            <div class="loader-title">睡眠氧舱</div>
+            <div class="loader-track">
+              <span id="loaderBar"></span>
+            </div>
+            <div class="loader-percent" id="loaderPercent">0%</div>
+          </div>
+        </div>
+
         <div class="slides" id="slides">
           <article class="slide is-active"><img src="./assets/images/optimized/01.webp" alt="睡眠氧舱，让每一晚呼吸更从容" fetchpriority="high" /></article>
           <article class="slide"><img data-src="./assets/images/optimized/02.webp" alt="四大核心优势，重新定义无感氧护" /></article>
